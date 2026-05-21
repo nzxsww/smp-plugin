@@ -14,7 +14,7 @@ public class ChatListener implements Listener {
 
     private static final MiniMessage MINI = MiniMessage.miniMessage();
     private static final LegacyComponentSerializer LEGACY =
-            LegacyComponentSerializer.legacySection();
+            LegacyComponentSerializer.legacyAmpersand();
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncChatEvent event) {
