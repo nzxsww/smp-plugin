@@ -1,0 +1,7 @@
+name: SMPPlugin
+version: 1.0.0
+main: com.smpplugin.SMPPlugin
+api-version: 1.21
+softdepend:
+  - PlaceholderAPI
+  - SoreKillTeams
