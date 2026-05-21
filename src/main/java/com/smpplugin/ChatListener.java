@@ -12,48 +12,46 @@ import org.bukkit.event.Listener;
 
 public class ChatListener implements Listener {
 
-    private static final MiniMessage MINI = MiniMessage.miniMessage();
     private static final LegacyComponentSerializer LEGACY =
             LegacyComponentSerializer.legacyAmpersand();
+
+    private final SMPPlugin plugin;
+
+    public ChatListener(SMPPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
 
-        // Get LuckPerms prefix via PAPI
-        String prefix = PlaceholderAPI.setPlaceholders(player, "%luckperms_prefix%");
-        if (prefix == null || prefix.equals("%luckperms_prefix%")) {
-            prefix = "";
-        }
-
-        // Get SoreKillTeams team name via PAPI
+        // Check if player has a team via PAPI
         String team = PlaceholderAPI.setPlaceholders(player, "%sorekillteams_team%");
         boolean hasTeam = team != null
                 && !team.isEmpty()
                 && !team.equals("%sorekillteams_team%")
                 && !team.equalsIgnoreCase("none");
 
-        // Build the prefix component (supports § color codes from LuckPerms)
-        Component prefixComponent = LEGACY.deserialize(prefix);
-
-        // Build team tag: [TeamName]
-        Component teamComponent;
-        if (hasTeam) {
-            teamComponent = Component.text(" ")
-                    .append(Component.text("["))
-                    .append(LEGACY.deserialize(team))
-                    .append(Component.text("] "));
-        } else {
-            teamComponent = Component.text(" ");
+        // Select the appropriate format from config.yml
+        String formatPath = hasTeam ? "chat-format-with-team" : "chat-format-without-team";
+        String formatStr = plugin.getConfig().getString(formatPath);
+        
+        // Fallback in case the config is missing or corrupted
+        if (formatStr == null) {
+            formatStr = "%luckperms_prefix% &f%player_name%&7: &f{message}";
         }
 
-        // Set the renderer to format: [Prefix] [Team] PlayerName: message
+        // Parse ALL placeholders in the format string
+        String parsedFormat = PlaceholderAPI.setPlaceholders(player, formatStr);
+
+        // Split the string by the {message} placeholder
+        String[] parts = parsedFormat.split("\\{message\\}", -1);
+        Component beforeMessage = LEGACY.deserialize(parts[0]);
+        Component afterMessage = parts.length > 1 ? LEGACY.deserialize(parts[1]) : Component.empty();
+
+        // Set the renderer to combine the parts with the actual message component
         event.renderer((source, sourceDisplayName, message, viewer) -> {
-            return prefixComponent
-                    .append(teamComponent)
-                    .append(sourceDisplayName)
-                    .append(Component.text(": "))
-                    .append(message);
+            return beforeMessage.append(message).append(afterMessage);
         });
     }
 }

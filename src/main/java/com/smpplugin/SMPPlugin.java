@@ -7,6 +7,9 @@ public class SMPPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Create config.yml if it doesn't exist
+        saveDefaultConfig();
+
         // Check if PlaceholderAPI is installed
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getLogger().warning("PlaceholderAPI not found! Chat formatting will not work.");
@@ -15,7 +18,7 @@ public class SMPPlugin extends JavaPlugin {
         }
 
         // Register chat listener
-        Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ChatListener(this), this);
 
         getLogger().info("SMPPlugin has been enabled!");
         getLogger().info("Chat format: [Prefix] [Team] PlayerName: message");

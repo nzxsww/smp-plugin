@@ -1,0 +1,10 @@
+# Configuración del chat del servidor SMP
+# Usa {message} para indicar dónde va el mensaje del jugador.
+# Puedes usar cualquier placeholder de PlaceholderAPI (PAPI) aquí.
+# Recuerda descargar las expansiones: /papi ecloud download LuckPerms, Player, etc.
+
+# Formato cuando el jugador SÍ tiene un equipo de SoreKillTeams
+chat-format-with-team: "%luckperms_prefix% &8[&b%sorekillteams_team%&8] &f%player_name%&7: &f{message}"
+
+# Formato cuando el jugador NO tiene un equipo
+chat-format-without-team: "%luckperms_prefix% &f%player_name%&7: &f{message}"
