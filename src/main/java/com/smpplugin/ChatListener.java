@@ -27,10 +27,10 @@ public class ChatListener implements Listener {
         }
 
         // Get SoreKillTeams team name via PAPI
-        String team = PlaceholderAPI.setPlaceholders(player, "%sorekillteams_team_name%");
+        String team = PlaceholderAPI.setPlaceholders(player, "%sorekillteams_team%");
         boolean hasTeam = team != null
                 && !team.isEmpty()
-                && !team.equals("%sorekillteams_team_name%")
+                && !team.equals("%sorekillteams_team%")
                 && !team.equalsIgnoreCase("none");
 
         // Build the prefix component (supports § color codes from LuckPerms)
