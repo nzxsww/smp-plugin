@@ -16,9 +16,20 @@ public class ChatListener implements Listener {
             LegacyComponentSerializer.legacyAmpersand();
 
     private final SMPUtils plugin;
+    
+    // Caching config formats in memory for maximum performance
+    private final String formatWithTeam;
+    private final String formatWithoutTeam;
 
     public ChatListener(SMPUtils plugin) {
         this.plugin = plugin;
+        
+        // Load formats into memory ONCE during startup
+        String withTeam = plugin.getConfig().getString("chat-format-with-team");
+        String withoutTeam = plugin.getConfig().getString("chat-format-without-team");
+        
+        this.formatWithTeam = withTeam != null ? withTeam : "%luckperms_prefix% &f%player_name%&7: &f{message}";
+        this.formatWithoutTeam = withoutTeam != null ? withoutTeam : "%luckperms_prefix% &f%player_name%&7: &f{message}";
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -32,14 +43,8 @@ public class ChatListener implements Listener {
                 && !team.equals("%sorekillteams_team%")
                 && !team.equalsIgnoreCase("none");
 
-        // Select the appropriate format from config.yml
-        String formatPath = hasTeam ? "chat-format-with-team" : "chat-format-without-team";
-        String formatStr = plugin.getConfig().getString(formatPath);
-        
-        // Fallback in case the config is missing or corrupted
-        if (formatStr == null) {
-            formatStr = "%luckperms_prefix% &f%player_name%&7: &f{message}";
-        }
+        // Use the cached string (O(1) memory access, zero config lookups)
+        String formatStr = hasTeam ? formatWithTeam : formatWithoutTeam;
 
         // Parse ALL placeholders in the format string
         String parsedFormat = PlaceholderAPI.setPlaceholders(player, formatStr);
