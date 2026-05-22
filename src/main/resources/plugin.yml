@@ -1,6 +1,6 @@
-name: SMPPlugin
+name: SMPUtils
 version: 1.0.0
-main: com.smpplugin.SMPPlugin
+main: com.smpplugin.SMPUtils
 api-version: 1.21
 softdepend:
   - PlaceholderAPI

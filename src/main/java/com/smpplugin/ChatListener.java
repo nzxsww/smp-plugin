@@ -15,9 +15,9 @@ public class ChatListener implements Listener {
     private static final LegacyComponentSerializer LEGACY =
             LegacyComponentSerializer.legacyAmpersand();
 
-    private final SMPPlugin plugin;
+    private final SMPUtils plugin;
 
-    public ChatListener(SMPPlugin plugin) {
+    public ChatListener(SMPUtils plugin) {
         this.plugin = plugin;
     }
 
