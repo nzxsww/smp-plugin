@@ -7,4 +7,16 @@
 chat-format-with-team: "%luckperms_prefix% &8[&b%sorekillteams_team%&8] &f%player_name%&7: &f{message}"
 
 # Formato cuando el jugador NO tiene un equipo
-chat-format-without-team: "%luckperms_prefix% &f%player_name%&7: &f{message}"
+chat-format-without-team: "%luckperms_prefix% &f{player}&7: &f{message}"
+
+# ── Configuración de Elytras y Cohetes ──────────────────────────────────────
+# Cooldown en segundos entre cada uso de cohete.
+elytra-rocket-cooldown: 2
+
+# Porcentaje de reducción de usos de las Elytras (0-100)
+# 20 = 20% menos usos (más daño), 0 = sin reducción
+elytra-durability-reduction: 20
+
+# Máximo nivel de Unbreaking permitido en Elytras (1-2)
+# 2 = Unbreaking 3 se reduce a 2, 0 = sin限制
+elytra-max-unbreaking: 2

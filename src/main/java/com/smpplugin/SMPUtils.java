@@ -33,6 +33,9 @@ public class SMPUtils extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new ChatListener(this), this);
         }
 
+        // Register elytra rocket cooldown
+        Bukkit.getPluginManager().registerEvents(new RocketCooldownListener(this), this);
+
         // Register commands via CommandMap (no plugin.yml commands block needed)
         Bukkit.getCommandMap().register("smputils", new SpawnCommand(this));
         Bukkit.getCommandMap().register("smputils", new SetSpawnCommand(this));

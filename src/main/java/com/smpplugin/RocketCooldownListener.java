@@ -42,6 +42,32 @@ public class RocketCooldownListener implements Listener {
         // Apply cooldown (convert seconds to ticks: 1 second = 20 ticks)
         int cooldownSeconds = plugin.getConfig().getInt("elytra-rocket-cooldown", 2);
         player.setCooldown(Material.FIREWORK_ROCKET, cooldownSeconds * 20);
+
+        // Custom Boost Logic
+        int boostPercent = plugin.getConfig().getInt("elytra-rocket-boost-percent", 100);
+        if (boostPercent != 100) {
+            // Cancel vanilla boost mechanic
+            event.setCancelled(true);
+            
+            // Consume 1 rocket manually since we cancelled the event
+            ItemStack item = event.getItem();
+            if (item != null && item.getType() == Material.FIREWORK_ROCKET) {
+                if (player.getGameMode() != org.bukkit.GameMode.CREATIVE) {
+                    item.setAmount(item.getAmount() - 1);
+                }
+            }
+            
+            // Apply custom instant velocity
+            // Vanilla speed is complex, but a vector length of ~2.0 is a strong burst.
+            // 2.0 * 100% = 2.0. If they put 50%, it's 1.0.
+            double baseMultiplier = 2.0; 
+            double finalMultiplier = baseMultiplier * (boostPercent / 100.0);
+            
+            player.setVelocity(player.getLocation().getDirection().multiply(finalMultiplier));
+            
+            // Play launch sound manually
+            player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
