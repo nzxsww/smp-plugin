@@ -40,6 +40,8 @@ public class SMPUtils extends JavaPlugin {
         Bukkit.getCommandMap().register("smputils", new SpawnCommand(this));
         Bukkit.getCommandMap().register("smputils", new SetSpawnCommand(this));
         Bukkit.getCommandMap().register("smputils", new com.smpplugin.commands.SmpConfigCommand(this));
+        Bukkit.getCommandMap().register("smputils", new com.smpplugin.commands.InvseeCommand());
+        Bukkit.getCommandMap().register("smputils", new com.smpplugin.commands.EnderseeCommand());
 
         getLogger().info("SMPUtils enabled!");
     }
