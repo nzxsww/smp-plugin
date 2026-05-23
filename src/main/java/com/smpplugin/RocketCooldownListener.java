@@ -23,20 +23,8 @@ public class RocketCooldownListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onRocketUse(PlayerInteractEvent event) {
+    public void onElytraBoost(com.destroystokyo.paper.event.player.PlayerElytraBoostEvent event) {
         Player player = event.getPlayer();
-        
-        // Check if player is right-clicking
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        
-        // Only check if player is gliding with elytra
-        if (!player.isGliding()) return;
-
-        // Check if the item used is a firework (rocket)
-        ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.FIREWORK_ROCKET) return;
 
         // Check if player already has cooldown (Minecraft's native system)
         if (player.hasCooldown(Material.FIREWORK_ROCKET)) {
