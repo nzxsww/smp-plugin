@@ -50,7 +50,7 @@ public class RocketCooldownListener implements Listener {
             event.setCancelled(true);
             
             // Consume 1 rocket manually since we cancelled the event
-            ItemStack item = event.getItem();
+            ItemStack item = event.getItemStack();
             if (item != null && item.getType() == Material.FIREWORK_ROCKET) {
                 if (player.getGameMode() != org.bukkit.GameMode.CREATIVE) {
                     item.setAmount(item.getAmount() - 1);
