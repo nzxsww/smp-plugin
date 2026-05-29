@@ -17,7 +17,8 @@ public class SmpConfigCommand extends Command {
             "elytra-rocket-cooldown",
             "elytra-rocket-boost-percent",
             "elytra-durability-reduction",
-            "elytra-max-unbreaking"
+            "elytra-max-unbreaking",
+            "natural-regeneration"
     );
 
     public SmpConfigCommand(SMPUtils plugin) {
@@ -38,7 +39,7 @@ public class SmpConfigCommand extends Command {
         if (args.length == 0) {
             sender.sendMessage("§a--- Configuración SMP ---");
             for (String key : validKeys) {
-                sender.sendMessage("§e" + key + "§f: §b" + plugin.getConfig().getInt(key));
+                sender.sendMessage("§e" + key + "§f: §b" + plugin.getConfig().get(key));
             }
             sender.sendMessage("§7Uso: /smpconfig <opcion> <valor>");
             return true;
@@ -61,8 +62,21 @@ public class SmpConfigCommand extends Command {
             return true;
         }
 
+        String valStr = args[1];
+        if (key.equals("natural-regeneration")) {
+            if (valStr.equalsIgnoreCase("true") || valStr.equalsIgnoreCase("false")) {
+                boolean value = Boolean.parseBoolean(valStr);
+                plugin.getConfig().set(key, value);
+                plugin.saveConfig();
+                sender.sendMessage("§aSe ha actualizado §e" + key + " §aal valor §b" + value);
+            } else {
+                sender.sendMessage("§cEl valor debe ser true o false.");
+            }
+            return true;
+        }
+
         try {
-            int value = Integer.parseInt(args[1]);
+            int value = Integer.parseInt(valStr);
             plugin.getConfig().set(key, value);
             plugin.saveConfig();
             sender.sendMessage("§aSe ha actualizado §e" + key + " §aal valor §b" + value);

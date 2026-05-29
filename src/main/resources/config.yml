@@ -20,3 +20,7 @@ elytra-durability-reduction: 20
 # Máximo nivel de Unbreaking permitido en Elytras (1-2)
 # 2 = Unbreaking 3 se reduce a 2, 0 = sin限制
 elytra-max-unbreaking: 2
+
+# Habilitar o deshabilitar la regeneración natural de salud (saciado/saturación).
+# true = Regeneración activa (Vanilla), false = Regeneración desactivada.
+natural-regeneration: true
